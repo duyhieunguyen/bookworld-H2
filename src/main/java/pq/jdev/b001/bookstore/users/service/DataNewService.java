@@ -64,8 +64,8 @@ public class DataNewService implements ApplicationListener<ContextRefreshedEvent
 			admin.setFirstname("admin");
 			admin.setLastname("admin");
 			admin.setEmail("duyhieudev0507@gmail.com");
-			admin.setAddress("BP");
-			String startDate = "1999-01-08";
+			admin.setAddress("HoChiMinh");
+			String startDate = "1999-07-05";
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date;
 			try {

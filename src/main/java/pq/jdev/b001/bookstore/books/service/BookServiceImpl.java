@@ -129,6 +129,8 @@ public class BookServiceImpl implements BookService {
 						dbBook.setPicture(modifiedFileName);
 						bookRepository.saveUpdatePicture(dbBook.getId(), modifiedFileName);
 					}
+				
+						
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -298,6 +300,7 @@ public class BookServiceImpl implements BookService {
 						}
 						bookRepository.saveUpdatePicture(bookid, modifiedFileName);
 					}
+						
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -481,4 +484,5 @@ public class BookServiceImpl implements BookService {
 			categorySet = new HashSet<Category>();
 		}
 	}
+
 }

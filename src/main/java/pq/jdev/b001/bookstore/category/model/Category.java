@@ -41,6 +41,10 @@ public class Category {
 	
 	@Column(name = "UPLOADID")
 	private Long updateId;
+
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+	private Set<Book> books;
+	
 	
 	public Category() {	
 	}
@@ -85,9 +89,7 @@ public class Category {
 		this.updateId = updateId;
 	}
 
-	@ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-	private Set<Book> books;
-	
+
 
 	public Long getId() {
 		return id;
@@ -95,6 +97,15 @@ public class Category {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public Set<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
+
 	public String getName() {
 		return name;
 	}

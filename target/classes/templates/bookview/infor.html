@@ -13,8 +13,7 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
-<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
-	type="text/css" />
+
 <style type="text/css">
 img {
 	margin: 0px;
@@ -97,13 +96,16 @@ templatemo_content_right h1 {
 					/*]]>*/
 				</script>
 				<label>Description:</label>
-				<p th:text="${dto.description}" style="height 30px; max-height: 30px;";></p>
+				<p th:text="${dto.description}" style="height: 30px; max-height: 30px;";></p>
 				</ul>
 				</div>
 				<div class="cleaner_with_height">&nbsp;</div>
+				
+					
 				<form th:action="@{/bookview/editform/{id}(id=${id})}">
 					<button class="btn btn-success" type="submit">Edit</button>
 				</form>
+		
 			</div>
 			<!-- end of content right -->
 

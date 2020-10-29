@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -54,6 +55,10 @@ public class Book implements Serializable {
 	@Column(name = "PICTURE", columnDefinition = "VARCHAR(255)")
 	private String picture;
 
+	// @Lob
+	// @Column(name = "PICTURE")
+	// private byte[] picture;
+
 	@Column(name = "UPLOADED_DATE")
 	private Date uploadedDate;
 
@@ -68,8 +73,8 @@ public class Book implements Serializable {
 	@JoinColumn(name = "PUBLISHER_ID ")
 	private Publishers publisher;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "book_category", joinColumns = { @JoinColumn(name = "BOOK_ID") }, inverseJoinColumns = {
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "BOOK_CATEGORY", joinColumns = { @JoinColumn(name = "BOOK_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
 
@@ -114,6 +119,14 @@ public class Book implements Serializable {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
+
+	// public byte[] getPicture() {
+	// 	return picture;
+	// }
+
+	// public void setPicture(byte[] picture) {
+	// 	this.picture = picture;
+	// }
 
 	public String getPicture() {
 		return picture;

@@ -40,4 +40,7 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<Category> findCategoryByIdBook(Long idBook) {
 		return categoryRepository.findCategoryByIdBook(idBook);
 	}
+
+
+
 }

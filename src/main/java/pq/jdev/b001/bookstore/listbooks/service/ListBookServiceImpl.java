@@ -45,7 +45,8 @@ public class ListBookServiceImpl implements ListBookService {
 	@Override
 	public Book findByTitle(String title) {
 		return bookRepository.findByTitle(title);
-	}
+    }
+    
 
 	
 }
