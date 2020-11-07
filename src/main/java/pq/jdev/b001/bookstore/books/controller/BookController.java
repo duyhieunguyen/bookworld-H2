@@ -74,6 +74,23 @@ public class BookController {
 			dto.setCategories(bookService.showAllCategories());
 			model.addAttribute("dto", dto);
 			model.addAttribute("currentUser", currentUser);
+
+			int pagesizeCP = 15;
+			PagedListHolder<?> pagePubs = null;
+			PagedListHolder<?> pageCates = null;
+			List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+			List<Category> categoryList = categoryService.findAll();
+			if (pageCates == null) {
+				pageCates = new PagedListHolder<>(categoryList);
+				pageCates.setPageSize(pagesizeCP);
+			}
+			if (pagePubs == null) {
+				pagePubs = new PagedListHolder<>(listPub);
+				pagePubs.setPageSize(pagesizeCP);
+			}
+			model.addAttribute("publishers", pagePubs);
+			model.addAttribute("categories", pageCates);
+
 			if (authentication != null) {
 				Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 				List<String> roles = new ArrayList<String>();
@@ -122,6 +139,23 @@ public class BookController {
 			@RequestParam(value = "idChecked", required = false) List<String> categoriesId, Model model, ModelMap map,
 			Authentication authentication) {
 		try {
+
+			int pagesizeCP = 15;
+			PagedListHolder<?> pagePubs = null;
+			PagedListHolder<?> pageCates = null;
+			List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+			List<Category> categoryList = categoryService.findAll();
+			if (pageCates == null) {
+				pageCates = new PagedListHolder<>(categoryList);
+				pageCates.setPageSize(pagesizeCP);
+			}
+			if (pagePubs == null) {
+				pagePubs = new PagedListHolder<>(listPub);
+				pagePubs.setPageSize(pagesizeCP);
+			}
+			model.addAttribute("publishers", pagePubs);
+			model.addAttribute("categories", pageCates);
+
 			if (authentication != null) {
 				Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 				List<String> roles = new ArrayList<String>();
@@ -140,6 +174,7 @@ public class BookController {
 				map.addAttribute("header", "header_login");
 				map.addAttribute("footer", "footer_login");
 			}
+			
 			Person currentUser = userService.findByUsername(user.getUsername());
 			if (!bookService.checkInput(dto)) {
 				if (authentication != null) {

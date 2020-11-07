@@ -6,9 +6,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>BOOKS</title>
+    <title>LIST BOOKS</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
+   
     <!-- Favicon -->
     <link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
 
@@ -48,7 +49,9 @@
         </div>
     </section>
     <!-- End: Page Banner -->
+    
     <!-- Start: Search Section -->
+    
     <section class="search-filters">
         <div class="container">
             <div class="filter-box">
@@ -104,15 +107,16 @@
                         <div class="col-md-6 col-md-offset-3">
                             <h2 class="section-title">Check Out The New Releases</h2>
                             <span class="underline center"></span>
-                            <p class="lead">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for
+                            <p class="lead">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below
+                                for
                                 those interested.</p>
                         </div>
                     </div>
                 </div>
                 <div class="filter-buttons">
                     <div class="filter btn" data-filter="all">All Releases</div>
-                    <div class="filter btn " data-filter=".abc" th:each="contact,iterStat : ${categories.pageList}"><span
-                            th:text="${contact.name}"></span></div>
+                    <div class="filter btn " data-filter=".abc" th:each="contact,iterStat : ${categories.pageList}">
+                        <span th:text="${contact.name}"></span></div>
                     <div class="filter btn" data-filter=".adults">Adults</div>
                     <div class="filter btn" data-filter=".kids-teens">Kids &amp; Teens</div>
                     <div class="filter btn" data-filter=".video">Video</div>
@@ -164,12 +168,13 @@
                                         <ol>
                                             <span th:if="${ok == 'TRUE'} or ${contactB.ok == 1}">
                                                 <li>
+                                                   
                                                     <a th:href="@{/bookview/editform/{id}(id=${contactB.id})}"><i
                                                             class="fa fa-edit"></i></a>
                                                 </li>
-                                                <li>
+                                                <li >
                                                     <a th:href="@{/book/{id}/delete(id=${contactB.id})}"><i
-                                                            class="fa fa-trash"></i></a>
+                                                            class="fa fa-trash"></i></a>   
                                                 </li>
                                             </span>
                                             <li>
@@ -678,5 +683,9 @@
 
 <!-- Custom Scripts -->
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script>
+
+</script>
 
 </html>
