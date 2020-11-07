@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Account</title>
+<title>UPDATE ACCOUNT</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 
@@ -139,8 +139,8 @@ a.back {
 						</div>
 
 						<div class="form-group">
-							<label> sex: </label>
-							<ul>
+							<label> Sex: </label>
+							<ul style="list-style-type: none;">
 								<li th:each="radioValue: ${singleSelectAllValues}"><input 
 									type="radio" th:field="*{sex}" th:value="${radioValue}" /> <label
 									th:for="${#ids.prev('sex')}" th:text="${radioValue}"></label>
@@ -187,7 +187,7 @@ a.back {
 					</div>
 
 					<div class="form-group">
-						<label> power: </label> <select class="form-control" 
+						<label> Power: </label> <select class="form-control" 
 							th:field="*{dropdownSelectedValue}">
 							<option th:each="dropdownValue: ${allRoles}"
 								th:value="${dropdownValue}" th:text="${dropdownValue}"></option>
