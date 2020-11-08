@@ -226,6 +226,22 @@ public class BookController {
 	@GetMapping("/bookview/editform/{id}")
 	public String initializeEditing(@AuthenticationPrincipal User user, UploadInformationDTO dto,
 			@PathVariable("id") String id, Model model, Authentication authentication, ModelMap map) {
+
+				int pagesizeCP = 15;
+			PagedListHolder<?> pagePubs = null;
+			PagedListHolder<?> pageCates = null;
+			List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+			List<Category> categoryList = categoryService.findAll();
+			if (pageCates == null) {
+				pageCates = new PagedListHolder<>(categoryList);
+				pageCates.setPageSize(pagesizeCP);
+			}
+			if (pagePubs == null) {
+				pagePubs = new PagedListHolder<>(listPub);
+				pagePubs.setPageSize(pagesizeCP);
+			}
+			model.addAttribute("publishers", pagePubs);
+			model.addAttribute("categories", pageCates);
 		
 		if (authentication != null) {
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -317,6 +333,22 @@ public class BookController {
 			@RequestParam(value = "idChecked", required = false) List<String> categoriesId, Model model,
 			RedirectAttributes redirectAttributes, ModelMap map, Authentication authentication) {
 		try {
+
+			int pagesizeCP = 15;
+			PagedListHolder<?> pagePubs = null;
+			PagedListHolder<?> pageCates = null;
+			List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+			List<Category> categoryList = categoryService.findAll();
+			if (pageCates == null) {
+				pageCates = new PagedListHolder<>(categoryList);
+				pageCates.setPageSize(pagesizeCP);
+			}
+			if (pagePubs == null) {
+				pagePubs = new PagedListHolder<>(listPub);
+				pagePubs.setPageSize(pagesizeCP);
+			}
+			model.addAttribute("publishers", pagePubs);
+			model.addAttribute("categories", pageCates);
 			if (authentication != null) {
 				Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 				List<String> roles = new ArrayList<String>();

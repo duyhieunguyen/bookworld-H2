@@ -241,46 +241,46 @@
 														</button>
 														<div>
 															<ul class="dropdown-menu" id="categories" th:if="${#lists.isEmpty(dto.categories)}">
-								<li>No Category</li>
-							</ul>
-						</div>
+																<li>No Category</li>
+															</ul>
+														</div>
 
-						<ul class="dropdown-menu" id="categories"
-							th:if="${not #lists.isEmpty(dto.categories)}">
-							<li th:each="category : ${dto.categories}"><a
-								th:href="@{bookview/createform}" class="small"
-								data-value="category" tabIndex="-1"><input type="checkbox"
-									th:text="${category.name}" th:name="idChecked"
-									th:value="${category.id}" />&nbsp;</a></li>
-						</ul>
-						<!-- Script for drop down checkbox -->
-						<script th:inline="javascript" >
-							/*<![CDATA[*/
-							$(document).ready(function () {
-								var options = [];
-								$('.dropdown-menu a').on('click', function (event) {
-									var $target = $(event.currentTarget),
-										val = $target.attr('data-value'),
-										$inp = $target.find('input'),
-										idx;
-									if ((idx = options.indexOf(val)) > -1) {
-										options.splice(idx, 1);
-										setTimeout(function () { $inp.prop('checked', false) }, 0);
-									}
-									else {
-										options.push(val);
-										setTimeout(function () { $inp.prop('checked', true) }, 0);
-									}
-									$(event.target).blur();
-									console.log(options);
-									return false;
-								});
-							});
-								/*]]>*/
-						</script>
-						<br>
-					</div>
-				</div>
+														<ul class="dropdown-menu" id="categories"
+															th:if="${not #lists.isEmpty(dto.categories)}">
+															<li th:each="category : ${dto.categories}"><a
+																th:href="@{bookview/createform}" class="small"
+																data-value="category" tabIndex="-1"><input type="checkbox"
+																	th:text="${category.name}" th:name="idChecked"
+																	th:value="${category.id}" />&nbsp;</a></li>
+														</ul>
+														<!-- Script for drop down checkbox -->
+														<script th:inline="javascript" >
+															/*<![CDATA[*/
+															$(document).ready(function () {
+																var options = [];
+																$('.dropdown-menu a').on('click', function (event) {
+																	var $target = $(event.currentTarget),
+																		val = $target.attr('data-value'),
+																		$inp = $target.find('input'),
+																		idx;
+																	if ((idx = options.indexOf(val)) > -1) {
+																		options.splice(idx, 1);
+																		setTimeout(function () { $inp.prop('checked', false) }, 0);
+																	}
+																	else {
+																		options.push(val);
+																		setTimeout(function () { $inp.prop('checked', true) }, 0);
+																	}
+																	$(event.target).blur();
+																	console.log(options);
+																	return false;
+																});
+															});
+																/*]]>*/
+														</script>
+														<br>
+													</div>
+												</div>
 		
 				<div class="form-group">
 					<label for="description" class="control-label">Description</label>
@@ -301,6 +301,12 @@
 				/*<![CDATA[*/
 				$(document).ready(function () {
 					validateForm = function () {
+						var m = document.getElementById("title");
+						if (m == "") {
+							alert("Please set in Title field");
+							return false;
+						}
+						
 						var x = document.getElementById("files").files.length;
 						if (x == 0) {
 							alert("You did not upload any files of your book");
@@ -317,6 +323,9 @@
 								return false;
 							}
 						}
+
+					
+
 						var p = document.getElementById("price");
 						if (p == "") {
 							alert("Please set 0 or other number in Price field");
@@ -841,6 +850,7 @@
 	<div class="cleaner_with_height"></div>
 	<footer th:replace="footer :: ${footer}"></footer>
 </body>
+
 <!-- jQuery Latest Version 1.x -->
 <script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
         
