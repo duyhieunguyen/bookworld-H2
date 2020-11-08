@@ -54,9 +54,9 @@ public class CategoryListController {
 		map.addAttribute("footer", "footer_admin");
 		PagedListHolder<?> pageLs = (PagedListHolder<?>) request.getSession().getAttribute("listCategory");
 		int pagesize = 9;
-		List<Category> categoryList = categoryService.findAll();
+		List<Category> list = categoryService.findAll();
 		if (pageLs == null) {
-			pageLs = new PagedListHolder<>(categoryList);
+			pageLs = new PagedListHolder<>(list);
 			pageLs.setPageSize(pagesize);
 		} else {
 			final int goToPage = pageNumber - 1;
@@ -66,7 +66,7 @@ public class CategoryListController {
 		}
 		request.getSession().setAttribute("listCategory", pageLs);
 		int current = pageLs.getPage() + 1;
-		int begin = Math.max(1, current - categoryList.size());
+		int begin = Math.max(1, current - list.size());
 		int end = Math.min(begin + 5, pageLs.getPageCount());
 		int totalPageCount = pageLs.getPageCount();
 		String baseUrl = "/categoryList/page/";
@@ -82,6 +82,7 @@ public class CategoryListController {
 		PagedListHolder<?> pagePubs = null;
 		PagedListHolder<?> pageCates = null;
 		List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+		List<Category> categoryList = categoryService.findAll();
 		if (pageCates == null) {
 			pageCates = new PagedListHolder<>(categoryList);
 			pageCates.setPageSize(pagesizeCP);
@@ -92,6 +93,7 @@ public class CategoryListController {
 		}
 		model.addAttribute("publishers", pagePubs);
 		model.addAttribute("categories", pageCates);
+		
 
 		return "categoryList";
 	}
@@ -111,6 +113,7 @@ public class CategoryListController {
 	@GetMapping("/categoryList/edit/{id}")
 	public String edit(@PathVariable long id, RedirectAttributes redirect, ModelMap map, Model model,
 			HttpServletRequest request, Authentication authentication) {
+				
 		map.addAttribute("header", "header_admin");
 		map.addAttribute("footer", "footer_admin");
 		int pagesizeCP = 15;

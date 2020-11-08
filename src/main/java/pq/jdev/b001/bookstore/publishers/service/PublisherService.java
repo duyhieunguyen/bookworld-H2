@@ -19,4 +19,6 @@ public interface PublisherService {
 	void delete(long id);
 	Publishers findOne(long id);
 	void save(Publishers contact);
+
+	List<Publishers> findByPublisher(String publisher);
 }

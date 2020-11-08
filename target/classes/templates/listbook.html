@@ -56,7 +56,7 @@
         <div class="container">
             <div class="filter-box">
                 <h3>What are you looking for at the library?</h3>
-                <form th:action="@{/book/search/1}" method="get">
+                <form th:action="@{/book/search/1}" method="get" >
                     <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label class="sr-only" >Search by Keyword</label>
@@ -76,6 +76,7 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <select name="category" id="category" class="form-control">
@@ -198,7 +199,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#">
+                                                <a th:href="@{/bookview/infor/{id}(id=${contactB.id})}">
                                                     <i class="fa fa-search"></i>
                                                 </a>
                                             </li>

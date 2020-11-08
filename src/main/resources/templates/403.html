@@ -6,7 +6,7 @@
  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
  <!-- Title -->
- <title>403 Page</title>
+ <title>404 Page</title>
  
  <!-- Favicon -->
  <link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
@@ -32,7 +32,22 @@
 </head>
 <body>
 	<nav th:replace="header :: ${header}" ></nav>
-    
+    <!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>404</h2>
+				<span class="underline center"></span>
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li>404</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
     <!-- Start: 404 Section -->
     <div id="content" class="site-content">
         <div id="primary" class="content-area">

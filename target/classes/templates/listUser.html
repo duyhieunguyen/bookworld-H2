@@ -73,7 +73,7 @@
 	<!-- End: Page Banner -->
 
 	<div class="container">
-	</br>
+		</br>
 		<div class="row">
 			<a th:href="@{/listUser/adminAddUser}"
 				style="font-size: 12pt; float: left; background-color: #e47343; color: white; padding: 5px 20px 5px 20px; border-radius: 5px;">NEW
@@ -100,8 +100,9 @@
 
 			</form>
 		</div>
-	</br>
+		</br>
 		<div class="row">
+			<h3 th:text="'Amount: ' + ${#lists.size(list.pageList)}"></h3>
 
 			<th:block th:if="${#lists.isEmpty(list.pageList)}">
 					<div class="table">

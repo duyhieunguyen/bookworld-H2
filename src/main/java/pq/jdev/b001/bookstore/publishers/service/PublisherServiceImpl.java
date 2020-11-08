@@ -27,6 +27,11 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	@Override
+	public List<Publishers> findByPublisher(String publisher) {
+		return publisherRepository.findByPublisher(publisher);
+	}
+
+	@Override
 	public Publishers find(long publisherId) {
 		return publisherRepository.findById(publisherId);
 	}

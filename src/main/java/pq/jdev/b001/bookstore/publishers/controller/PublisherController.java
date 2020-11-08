@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pq.jdev.b001.bookstore.books.service.BookService;
@@ -58,13 +59,23 @@ public class PublisherController {
 	private PublisherService publisherService;
 
 	@Autowired
-	private CategoryService categoryservice;
+	private CategoryService categoryService;
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private BookService bookService;
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/publishersList")
+	public String index(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+		request.getSession().setAttribute("listPublisher", null);
+
+		if (model.asMap().get("success") != null)
+			redirect.addFlashAttribute("success", model.asMap().get("success").toString());
+		return "redirect:/publishersList/page/1";
+	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/publisher/add")
@@ -94,7 +105,7 @@ public class PublisherController {
 		PagedListHolder<?> pagePubs = null;
 		PagedListHolder<?> pageCates = null;
 		List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
-		List<Category> categoryList = categoryservice.findAll();
+		List<Category> categoryList = categoryService.findAll();
 		if (pageCates == null) {
 			pageCates = new PagedListHolder<>(categoryList);
 			pageCates.setPageSize(pagesizeCP);
@@ -132,11 +143,11 @@ public class PublisherController {
 		return "redirect:/publishersList";
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/publishersList")
-	public String viewPublishersList() {
-		return "redirect:/publishersList/page/1";
-	}
+	// @PreAuthorize("hasRole('ADMIN')")
+	// @GetMapping("/publishersList")
+	// public String viewPublishersList() {
+	// 	return "redirect:/publishersList/page/1";
+	// }
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/publisher/{id}/delete")
@@ -158,7 +169,7 @@ public class PublisherController {
 		PagedListHolder<?> pagePubs = null;
 		PagedListHolder<?> pageCates = null;
 		List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
-		List<Category> categoryList = categoryservice.findAll();
+		List<Category> categoryList = categoryService.findAll();
 		if (pageCates == null) {
 			pageCates = new PagedListHolder<>(categoryList);
 			pageCates.setPageSize(pagesizeCP);
@@ -198,21 +209,24 @@ public class PublisherController {
 	public String showPage(HttpServletRequest request, @PathVariable int pageNumber, Model model, ModelMap map) {
 		map.addAttribute("header", "header_admin");
 		map.addAttribute("footer", "footer_admin");
-		
+		PagedListHolder<?> pageLs = (PagedListHolder<?>) request.getSession().getAttribute("listPublisher");
 		int pagesize = 8;
-		List<Publishers> list = (List<Publishers>) publisherService.findAll();
-		PagedListHolder<?> pages = new PagedListHolder<>(list);
-		pages.setPageSize(pagesize);
-		
-		final int goToPage = pageNumber - 1;
-		if (goToPage <= pages.getPageCount() && goToPage >= 0) {
-			pages.setPage(goToPage);
+		List<Publishers> list = publisherService.findAll();
+		if (pageLs == null) {
+			pageLs = new PagedListHolder<>(list);
+			pageLs.setPageSize(pagesize);
+		} else {
+			final int goToPage = pageNumber - 1;
+			if (goToPage <= pageLs.getPageCount() && goToPage >= 0) {
+				pageLs.setPage(goToPage);
+			}
 		}
 
-		int current = pages.getPage() + 1;
+		request.getSession().setAttribute("listPublisher", pageLs);
+		int current = pageLs.getPage() + 1;
 		int begin = Math.max(1, current - list.size());
-		int end = Math.min(begin + 5, pages.getPageCount());
-		int totalPageCount = pages.getPageCount();
+		int end = Math.min(begin + 5, pageLs.getPageCount());
+		int totalPageCount = pageLs.getPageCount();
 		String baseUrl = "/publishersList/page/";
 
 		model.addAttribute("beginIndex", begin);
@@ -220,13 +234,13 @@ public class PublisherController {
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("totalPageCount", totalPageCount);
 		model.addAttribute("baseUrl", baseUrl);
-		model.addAttribute("publishersL", pages);
+		model.addAttribute("publishersL", pageLs);
 		
 		int pagesizeCP = 15;
 		PagedListHolder<?> pagePubs = null;
 		PagedListHolder<?> pageCates = null;
 		List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
-		List<Category> categoryList = categoryservice.findAll();
+		List<Category> categoryList = categoryService.findAll();
 		if (pageCates == null) {
 			pageCates = new PagedListHolder<>(categoryList);
 			pageCates.setPageSize(pagesizeCP);
@@ -237,6 +251,62 @@ public class PublisherController {
 		}
 		model.addAttribute("publishers", pagePubs);
 		model.addAttribute("categories", pageCates);
+		return "publishersList";
+	}
+
+	@GetMapping("/publishersList/search/{pageNumber}")
+	public String search(@RequestParam("s") String s, Model model, HttpServletRequest request,
+			@PathVariable int pageNumber, ModelMap map) {
+		map.addAttribute("header", "header_admin");
+		map.addAttribute("footer", "footer_admin");
+		int pagesizeCP = 15;
+		PagedListHolder<?> pagePubs = null;
+		PagedListHolder<?> pageCates = null;
+		List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
+		List<Category> listCate = categoryService.findAll();
+		if (pageCates == null) {
+			pageCates = new PagedListHolder<>(listCate);
+			pageCates.setPageSize(pagesizeCP);
+		}
+		if (pagePubs == null) {
+			pagePubs = new PagedListHolder<>(listPub);
+			pagePubs.setPageSize(pagesizeCP);
+		}
+		model.addAttribute("publishers", pagePubs);
+		model.addAttribute("categories", pageCates);
+		if (s.equals("")) {
+			return "redirect:/publishersList";
+		}
+
+		List<Publishers> publishersList = publisherService.findByPublisher(s);
+		if (publishersList == null) {
+			return "redirect:/publishersList";
+		}
+		PagedListHolder<?> pageLs = (PagedListHolder<?>) request.getSession().getAttribute("listPublisher");
+		int pagesize = 4;
+
+		pageLs = new PagedListHolder<>(publishersList);
+		pageLs.setPageSize(pagesize);
+
+		final int goToPage = pageNumber - 1;
+		if (goToPage <= pageLs.getPageCount() && goToPage >= 0) {
+			pageLs.setPage(goToPage);
+		}
+
+		request.getSession().setAttribute("listPublisher", pageLs);
+		int current = pageLs.getPage() + 1;
+		int begin = Math.max(1, current - publishersList.size());
+		int end = Math.min(begin + 5, pageLs.getPageCount());
+		int totalPageCount = pageLs.getPageCount();
+		String baseUrl = "/publishersList/search/";
+
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("baseUrl", baseUrl);
+		model.addAttribute("publishersL", pageLs);
+
 		return "publishersList";
 	}
 	

@@ -227,7 +227,7 @@ public class BookController {
 	public String initializeEditing(@AuthenticationPrincipal User user, UploadInformationDTO dto,
 			@PathVariable("id") String id, Model model, Authentication authentication, ModelMap map) {
 
-				int pagesizeCP = 15;
+			int pagesizeCP = 15;
 			PagedListHolder<?> pagePubs = null;
 			PagedListHolder<?> pageCates = null;
 			List<Publishers> listPub = (List<Publishers>) publisherService.findAll();
